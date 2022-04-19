@@ -22,25 +22,7 @@ interno <- read_excel("dados/sede_0222.xlsx", skip = 1)
    filter(codigo %in% interno$`Código de fábrica`) %>%
    arrange(as.numeric(codigo))
 
-
-# Uso com codigo de produto (interno) -------------------------------------
-
-
-# interno <- interno %>%
-#   filter(Cód.Item %in% fornecedor$codigo) %>%
-#   arrange(`Cód.Item`)
-# 
-# 
-# fornecedor <- fornecedor %>%
-#   filter(codigo %in% interno$`Cód.Item`) %>%
-#   arrange(codigo)
-# 
-# erro <- interno %>%
-#   filter(`Código de Barras` != fornecedor$cod_barras)
-
-
 # criacao de tabela para importacao ---------------------------------------
-
 
 # necessaria a adaptaçao dos valores e colunas para importacao no sistema
 organizar_colunas <- function(data1, data2){
