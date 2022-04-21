@@ -31,20 +31,20 @@ tabela <- tabela %>%
          #S = fornecedor$NCM,
          #Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
          #AE = fornecedor$Mult_venda,
-         AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",","),
          AJ = fornecedor$desconto,
          E = str_pad(interno$Departamento, 3, "left", pad = 0),
          #G = interno$Descrição
+         AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",",")
   )
 
 # exportação da tabela finalizada -----------------------------------------
 
 #import A e AA
-write.table(filter(table, E == "001"| E == "002"), 
+write.table(filter(tabela, E == "001"| E == "002"), 
             file = "arq/AAA", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
-write.table(filter(table, E == "003"| E == "004"), 
+write.table(filter(tabela, E == "003"| E == "004"), 
             file = "arq/BC", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
@@ -59,7 +59,7 @@ checagem <- interno %>%
   filter(Variação != 0)
 
 
-write.table(check, file = "arq/data_check_ .csv", quote = F, sep = ";", 
+write.table(checagem, file = "arq/data_check_ .csv", quote = F, sep = ";", 
             row.names = F, col.names = T, dec = ",", na = "")
 
 # Dicionario --------------------------------------------------------------
