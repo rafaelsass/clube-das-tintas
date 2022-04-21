@@ -45,7 +45,7 @@ write.table(filter(tabela, E == "001"| E == "002"),
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
 write.table(filter(tabela, E == "003"| E == "004"), 
-            file = "arq/data_import_mococa_BC", quote = F, sep = ";", 
+            file = "arq/data_import_mococa_BC.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
 # criação de tabela para checagem de diferença em produtos ----------------
