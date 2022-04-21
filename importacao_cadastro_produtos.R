@@ -5,12 +5,12 @@ library(stringr)
 # importacao de dados -----------------------------------------------------
 
 
-fornecedor <- read_excel("dados/importacao/blascor/blascor_0322.xlsx", skip = 1)
-interno <- read_excel("dados/sede_0222.xlsx", skip = 1)
+fornecedor <- read_excel("", skip = 1)
+interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
   filter(`Código de fábrica` %in% fornecedor$codigo[is.na(fornecedor$codigo) == F] & 
-           Fornecedor %in% c()) %>% unique() %>%
+           Fornecedor %in% c(90000065)) %>% unique() %>%
   arrange(as.numeric(`Código de fábrica`)) 
 
 fornecedor <- fornecedor %>%
@@ -41,11 +41,11 @@ tabela <- tabela %>%
 
 #import A e AA
 write.table(filter(table, E == "001"| E == "002"), 
-            file = "arq/data_import_sw_222_AAA.csv", quote = F, sep = ";", 
+            file = "arq/AAA", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
 write.table(filter(table, E == "003"| E == "004"), 
-            file = "arq/data_import_sw_222_BC.csv", quote = F, sep = ";", 
+            file = "arq/BC", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
 # criação de tabela para checagem de diferença em produtos ----------------
@@ -59,7 +59,7 @@ checagem <- interno %>%
   filter(Variação != 0)
 
 
-write.table(check, file = "arq/data_check_sw.csv", quote = F, sep = ";", 
+write.table(check, file = "arq/data_check_ .csv", quote = F, sep = ";", 
             row.names = F, col.names = T, dec = ",", na = "")
 
 # Dicionario --------------------------------------------------------------
