@@ -4,13 +4,12 @@ library(stringr)
 
 # importacao de dados -----------------------------------------------------
 
-
-fornecedor <- read_excel("dados/importacao/blascor/blascor_0322.xlsx", skip = 1)
-interno <- read_excel("dados/sede_0222.xlsx", skip = 1)
+fornecedor <- read_excel("dados/importacao/tabela_sw_clube.xlsx", skip = 1)
+interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
   filter(`Código de fábrica` %in% fornecedor$codigo[is.na(fornecedor$codigo) == F] & 
-           Fornecedor %in% c()) %>% unique() %>%
+           Fornecedor %in% c(90000919,90000011,90001943)) %>% unique() %>%
   arrange(as.numeric(`Código de fábrica`)) 
 
 fornecedor <- fornecedor %>%
@@ -27,24 +26,24 @@ tabela <- data.frame(matrix(
 
 tabela <- tabela %>%
   mutate(A = str_pad(interno$Cód.Item,5,"left",0),
-         B = interno$cod_barras,
+         #B = interno$cod_barras,
          #S = fornecedor$NCM,
          #Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
          #AE = fornecedor$Mult_venda,
-         AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",","),
-         AJ = fornecedor$desconto,
+         AJ = fornecedor$desconto*100,
          E = str_pad(interno$Departamento, 3, "left", pad = 0),
-         #G = interno$Descrição
+         #G = interno$Descrição,
+         AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",",")
   )
 
 # exportação da tabela finalizada -----------------------------------------
 
 #import A e AA
-write.table(filter(table, E == "001"| E == "002"), 
+write.table(filter(tabela, E == "001"| E == "002"), 
             file = "arq/data_import_sw_222_AAA.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
-write.table(filter(table, E == "003"| E == "004"), 
+write.table(filter(tabela, E == "003"| E == "004"), 
             file = "arq/data_import_sw_222_BC.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
@@ -59,7 +58,7 @@ checagem <- interno %>%
   filter(Variação != 0)
 
 
-write.table(check, file = "arq/data_check_sw.csv", quote = F, sep = ";", 
+write.table(checagem, file = "arq/data_check_sw.csv", quote = F, sep = ";", 
             row.names = F, col.names = T, dec = ",", na = "")
 
 # Dicionario --------------------------------------------------------------
