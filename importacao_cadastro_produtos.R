@@ -5,12 +5,12 @@ library(stringr)
 # importacao de dados -----------------------------------------------------
 
 
-fornecedor <- read_excel("", skip = 1)
+fornecedor <- read_excel("dados/importacao/", skip = 1)
 interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
   filter(`Código de fábrica` %in% fornecedor$codigo[is.na(fornecedor$codigo) == F] & 
-           Fornecedor %in% c(90000065)) %>% unique() %>%
+           Fornecedor %in% c()) %>% unique() %>%
   arrange(as.numeric(`Código de fábrica`)) 
 
 fornecedor <- fornecedor %>%
@@ -27,11 +27,11 @@ tabela <- data.frame(matrix(
 
 tabela <- tabela %>%
   mutate(A = str_pad(interno$Cód.Item,5,"left",0),
-         B = interno$cod_barras,
+         #B = fornecedor$cod_barras,
          #S = fornecedor$NCM,
          #Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
          #AE = fornecedor$Mult_venda,
-         AJ = fornecedor$desconto,
+         #AJ = fornecedor$desconto,
          E = str_pad(interno$Departamento, 3, "left", pad = 0),
          #G = interno$Descrição
          AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",",")
