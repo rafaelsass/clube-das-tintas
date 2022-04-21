@@ -5,7 +5,7 @@ library(stringr)
 # importacao de dados -----------------------------------------------------
 
 
-fornecedor <- read_excel("", skip = 1)
+fornecedor <- read_excel("dados/importacao/tabela_sv_clube.xlsx", skip = 0)
 interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
@@ -27,25 +27,25 @@ tabela <- data.frame(matrix(
 
 tabela <- tabela %>%
   mutate(A = str_pad(interno$Cód.Item,5,"left",0),
-         B = interno$cod_barras,
-         #S = fornecedor$NCM,
-         #Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
-         #AE = fornecedor$Mult_venda,
+         #B = interno$cod_barras,
+         S = fornecedor$NCM,
+         Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
+         AE = fornecedor$Mult_Venda,
          AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",","),
-         AJ = fornecedor$desconto,
-         E = str_pad(interno$Departamento, 3, "left", pad = 0),
+         #AJ = fornecedor$desconto,
+         E = str_pad(interno$Departamento, 3, "left", pad = 0)
          #G = interno$Descrição
   )
 
 # exportação da tabela finalizada -----------------------------------------
 
 #import A e AA
-write.table(filter(table, E == "001"| E == "002"), 
-            file = "arq/AAA", quote = F, sep = ";", 
+write.table(filter(tabela, E == "001"| E == "002"), 
+            file = "arq/data_import_sv_AAA", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
-write.table(filter(table, E == "003"| E == "004"), 
-            file = "arq/BC", quote = F, sep = ";", 
+write.table(filter(tabela, E == "003"| E == "004"), 
+            file = "arq/data_import_sv_BC", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
 # criação de tabela para checagem de diferença em produtos ----------------
@@ -59,7 +59,7 @@ checagem <- interno %>%
   filter(Variação != 0)
 
 
-write.table(check, file = "arq/data_check_ .csv", quote = F, sep = ";", 
+write.table(checagem, file = "arq/data_check_sv.csv", quote = F, sep = ";", 
             row.names = F, col.names = T, dec = ",", na = "")
 
 # Dicionario --------------------------------------------------------------
