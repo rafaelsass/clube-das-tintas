@@ -41,11 +41,11 @@ tabela <- tabela %>%
 
 #import A e AA
 write.table(filter(tabela, E == "001"| E == "002"), 
-            file = "arq/data_import_basf_AAA.xlsx", quote = F, sep = ";", 
+            file = "arq/data_import_basf_AAA.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
 write.table(filter(tabela, E == "003"| E == "004"), 
-            file = "arq/data_import_basf_BC.xlsx", quote = F, sep = ";", 
+            file = "arq/data_import_basf_BC.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
 # criação de tabela para checagem de diferença em produtos ----------------
