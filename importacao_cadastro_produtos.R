@@ -4,12 +4,13 @@ library(stringr)
 
 # importacao de dados -----------------------------------------------------
 
-fornecedor <- read_excel("dados/importacao/tabela_sw_clube.xlsx", skip = 1)
+fornecedor <- read_excel("dados/importacao/tabela_akzo_clube.xlsx", skip = 0)
 interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
+  mutate(`Código de fábrica` = str_remove(`Código de fábrica`, "^0+")) %>%
   filter(`Código de fábrica` %in% fornecedor$codigo[is.na(fornecedor$codigo) == F] & 
-           Fornecedor %in% c(90000919,90000011,90001943)) %>% unique() %>%
+           Fornecedor %in% c(90000006,90000546,90003198)) %>% unique() %>%
   arrange(as.numeric(`Código de fábrica`)) 
 
 fornecedor <- fornecedor %>%
@@ -29,8 +30,8 @@ tabela <- tabela %>%
          #B = interno$cod_barras,
          #S = fornecedor$NCM,
          #Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
-         #AE = fornecedor$Mult_venda,
-         AJ = fornecedor$desconto*100,
+         AE = fornecedor$Mult_Venda,
+         AJ = fornecedor$desconto,
          E = str_pad(interno$Departamento, 3, "left", pad = 0),
          #G = interno$Descrição,
          AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",",")
@@ -40,11 +41,11 @@ tabela <- tabela %>%
 
 #import A e AA
 write.table(filter(tabela, E == "001"| E == "002"), 
-            file = "arq/data_import_sw_222_AAA.csv", quote = F, sep = ";", 
+            file = "arq/data_import_akzo_AAA.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 #import B e C
 write.table(filter(tabela, E == "003"| E == "004"), 
-            file = "arq/data_import_sw_222_BC.csv", quote = F, sep = ";", 
+            file = "arq/data_import_akzo_BC.csv", quote = F, sep = ";", 
             row.names = F, col.names = F, dec = ",", na = "")
 
 # criação de tabela para checagem de diferença em produtos ----------------
@@ -58,7 +59,7 @@ checagem <- interno %>%
   filter(Variação != 0)
 
 
-write.table(checagem, file = "arq/data_check_sw.csv", quote = F, sep = ";", 
+write.table(checagem, file = "arq/data_check_akzo.csv", quote = F, sep = ";", 
             row.names = F, col.names = T, dec = ",", na = "")
 
 # Dicionario --------------------------------------------------------------
