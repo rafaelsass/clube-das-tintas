@@ -9,6 +9,7 @@ fornecedor <- read_excel("dados/importacao/tabela_maza_clube.xlsx", skip = 0)
 interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
+  mutate(`Código de fábrica` = str_remove(`Código de fábrica`, "^0+")) %>%
   filter(`Código de fábrica` %in% fornecedor$codigo[is.na(fornecedor$codigo) == F] & 
            Fornecedor %in% c(90000065)) %>% unique() %>%
   arrange(as.numeric(`Código de fábrica`)) 
