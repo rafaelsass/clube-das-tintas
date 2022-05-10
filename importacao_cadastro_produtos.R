@@ -5,7 +5,7 @@ library(stringr)
 # importacao de dados -----------------------------------------------------
 
 
-fornecedor <- read_excel("dados/importacao/tabela_basf_clube.xlsx", skip = 0)
+fornecedor <- read_excel("dados/importacao/tabela_basf_clube0522.xlsx", skip = 0)
 interno <- read_excel("dados/importacao/produtos_20abril_2022.xlsx", skip = 1)
 
 interno <- interno %>%
@@ -31,7 +31,7 @@ tabela <- tabela %>%
          #S = fornecedor$NCM,
          #Z = str_replace_all(fornecedor$Peso_Bruto,"\\.",","),
          #AE = fornecedor$Mult_venda,
-         #AJ = fornecedor$desconto,
+         AJ = fornecedor$desconto*100,
          E = str_pad(interno$Departamento, 3, "left", pad = 0),
          #G = interno$Descrição
          AI = str_replace_all(fornecedor$`Preco_Compra`,"\\.",",")
